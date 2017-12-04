@@ -2,10 +2,13 @@
 SHELL := /bin/bash
 PATH := /usr/bin:$(PATH)
 BIN := .pioenvs/wemos_d1_mini/firmware.bin
+WEBNAME := wasserkerze.local
+WEBPATH := firmware
+
 all: run
 
 webupdate: run
-	curl -F "file=@$(BIN)" --user `cat ../user.cred` wasserkerze.local/firmware > /dev/null
+	curl -F "file=@$(BIN)" --user `cat user.cred` $(WEBNAME)/$(WEBPATH) > /dev/null
 
 upload:
 	platformio -f -c vim run --target upload;

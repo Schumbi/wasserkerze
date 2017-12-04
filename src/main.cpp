@@ -8,16 +8,19 @@
 
 #include "strip.hpp"
 #include "ledring.hpp"
+#include "conf.hpp"
+#include "../pwd.hpp"
 #include "../../wlan.conf"
+
 
 const char* myssid = MAKELIGHT_SSID;
 const char* mypass = MAKELIGHT_PASS;
 
-const char* host = "wasserkerze";
-const char* update_path="/firmware";
-const char* update_username="wasserkerze";
-const char* update_passwort="DasIstDasPasswortDerWasserkerze.";
-const int updater_port=80;
+const char* host = WEBNAME;
+const char* update_path=UPDATEPATH;
+const char* update_username=UPDATE_USERNAME;
+const char* update_passwort=UPDATE_PASSWORT;
+const int updater_port=UPDATE_PORT;
 
 #ifndef LEDUPDATETIME
 	#define LEDUPDATETIME 10 //ms
