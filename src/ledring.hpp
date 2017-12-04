@@ -3,10 +3,10 @@
 
 #include <Arduino.h>
 
-#define MOTOR D1
-#define LED1 D2
-#define LED2 D3
-#define LED3 TX
+#define MOTOR D0
+#define LED1 D1
+#define LED2 D2
+#define LED3 D3
 
 static bool _initialized;
 static bool _motorState;
@@ -68,9 +68,10 @@ static void acitvateMotor(bool state)
 								}
 }
 
-static void toggleMotor()
+static bool toggleMotor()
 {
 								_motorState == false ? acitvateMotor(true) : acitvateMotor(false);
+								return _motorState;
 }
 
 };
