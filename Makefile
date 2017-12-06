@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 PATH := /usr/bin:$(PATH)
 BIN := .pioenvs/wemos_d1_mini/firmware.bin
-WEBNAME := wasserkerze.local
+WEBNAME := wasserkerze_1.local
 WEBPATH := firmware
 
 all: run
@@ -26,5 +26,7 @@ uploadfs:
 update: 
 	platformio -f -c vim update
 
-run: $(BIN)
+$(BIN): run
+
+run: 
 	platformio -f -c vim run

@@ -27,7 +27,14 @@ const int updater_port=UPDATE_PORT;
 #endif
 
 #ifndef MOTORPERIOD
-	#define MOTORPERIOD 6000L
+	#define MOTORPERIOD 3000L
+#endif
+
+#ifndef MOTORPERIODON
+	#define MOTORPERIODON 5
+#endif
+#ifndef MOTORPERIODOFF
+	#define MOTORPERIODOFF 1
 #endif
 
 ESP8266WebServer httpServer(updater_port);
@@ -35,6 +42,7 @@ ESP8266HTTPUpdateServer httpUpdater;
 
 void setup_wifi();
 void setup_OTA();
+void updateMotor();
 
 void setup() {
 
@@ -48,21 +56,19 @@ void setup() {
 								CLedStrip* strip = CLedStrip::getStrip_ptr();
 								strip->init();
 								strip->getConf().ctr = 0;
-								strip->getConf().max = 5;
+								strip->getConf().period = 1;
+								strip->getConf().max = 180; //RgbColor(ORANGRED).B;
 								strip->getConf().min = 0;
-								strip->getConf().period = 10;
-								strip->switch_program(1);
+								strip->switch_program(2);
 								Serial.println("Strip end");
 
 								LedRing::acitvateLedRing(true);
 								LedRing::acitvateMotor(true);
 
 								setup_wifi();
-
 								setup_OTA();
 }
 
-static uint32_t motorCtr = 0;
 
 void loop()
 {
@@ -70,22 +76,40 @@ void loop()
 								CLedStrip::getStrip_ptr()->update();
 								httpServer.handleClient();
 								delay(LEDUPDATETIME);
-								//
-								if(motorCtr == MOTORPERIOD)
+								updateMotor();
+}
+
+static uint32_t motorCtr = 0;
+static bool justStarted = true;
+void updateMotor()
+{
+								if(justStarted == false)
 								{
-																if(LedRing::toggleMotor())
+
+																if(motorCtr < ((double)MOTORPERIOD * (double)MOTORPERIODOFF / (double)MOTORPERIODON))
 																{
+																								LedRing::acitvateMotor(true);
 																								Serial.print("Motor ON ");
 																}
 																else
 																{
+																								LedRing::acitvateMotor(false);
 																								Serial.print("Motor OFF");
 																}
-																motorCtr = 0;
-																Serial.println("");
+																if(motorCtr >= MOTORPERIOD)
+																{
+																								motorCtr = 0;
+																}
+								}
+								else
+								{
+																if(motorCtr >= MOTORPERIOD * 2)
+																{
+																								justStarted = false;
+																}
+
 								}
 								motorCtr++;
-
 }
 
 void setup_wifi()
@@ -97,7 +121,7 @@ void setup_wifi()
 								Serial.print("Connecting to ");
 								Serial.println(myssid);
 
-								WiFi.mode(WIFI_AP_STA);
+								WiFi.mode(WIFI_AP);
 								WiFi.begin(myssid, mypass);
 
 								while (WiFi.waitForConnectResult() != WL_CONNECTED)
@@ -123,7 +147,6 @@ void setup_OTA()
 
 								MDNS.begin(host);
 								httpUpdater.setup(&httpServer, update_path, update_username, update_passwort);
-								//httpUpdater.setup(&httpServer, "/firmware");
 								httpServer.begin();
 								MDNS.addService("http", "tcp", updater_port);
 								Serial.println("OTA setup finished!");

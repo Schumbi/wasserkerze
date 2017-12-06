@@ -3,6 +3,17 @@
 
 #include <NeoPixelBus.h>
 
+#define GLAS1 0
+#define GLAS2 1
+#define FLAMME 2
+
+#define CORAL      255,127,80
+#define TOMATO     255,99,71
+#define ORANGRED   255,69,20
+#define GOLD       255,165,80
+#define ORANGE     255,165,80
+#define DARKORANGE 255,140,80
+
 #ifdef DEBUG_STRIP
 #define STRIPDEBUG Dummy
 class Dummy

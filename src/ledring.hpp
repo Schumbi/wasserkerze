@@ -4,9 +4,9 @@
 #include <Arduino.h>
 
 #define MOTOR D0
-#define LED1 D1
-#define LED2 D2
-#define LED3 D3
+#define LED1 D1 // R
+#define LED2 D2 // B
+#define LED3 D3 // G
 
 static bool _initialized;
 static bool _motorState;
@@ -19,7 +19,7 @@ public:
 static void initialize()
 {
 								pinMode(MOTOR, OUTPUT);
-								pinMode(D3, OUTPUT);
+								pinMode(LED1, OUTPUT);
 								pinMode(LED2, OUTPUT);
 								pinMode(LED3, OUTPUT);
 
