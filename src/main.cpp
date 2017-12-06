@@ -122,6 +122,7 @@ void setup_wifi()
 								Serial.println(myssid);
 
 								WiFi.mode(WIFI_STA);
+								WiFi.hostname(WEBNAME);
 								WiFi.begin(myssid, mypass);
 
 								while (WiFi.waitForConnectResult() != WL_CONNECTED)
