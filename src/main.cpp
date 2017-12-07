@@ -9,7 +9,7 @@
 #include "strip.hpp"
 #include "ledring.hpp"
 #include "conf.hpp"
-#include "../pwd.hpp"
+#include "../../pwd.hpp"
 #include "../../wlan.conf"
 
 
@@ -27,7 +27,7 @@ static const int updater_port=UPDATE_PORT;
 #endif
 
 #ifndef MOTORPERIOD
-#define MOTORPERIOD 3000L
+#define MOTORPERIOD 4000L
 #endif
 
 #ifndef MOTORPERIODON
@@ -67,6 +67,8 @@ void setup() {
 
     setup_wifi();
     setup_OTA();
+
+    digitalWrite(BUILTIN_LED, LOW);
 }
 
 
@@ -77,6 +79,7 @@ void loop()
     httpServer.handleClient();
     delay(LEDUPDATETIME);
     updateMotor();
+    MDNS.update();
 }
 
 static uint32_t motorCtr = 0;
@@ -140,8 +143,6 @@ void setup_wifi()
     Serial.println(WiFi.localIP());
     digitalWrite(BUILTIN_LED, HIGH);
     delay(100);
-    setup_OTA();
-
 }
 
 void setup_OTA()
