@@ -6,3 +6,4 @@ doc/*.bak
 pwd.hpp
 user.cred
 *.user
+.qmake.stash
