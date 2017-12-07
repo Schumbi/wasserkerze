@@ -19,10 +19,10 @@
 class Dummy
 {
 public:
-int println(String inp)
-{
-								return 0;
-}
+    int println(String inp)
+    {
+        return 0;
+    }
 };
 #else
 #define STRIPDEBUG Serial
@@ -34,47 +34,44 @@ class CLedStrip : public NeoPixelBus<NeoGrbFeature, Neo800KbpsMethod>
 {
 
 private:
-void setNextColor(int LEDid);
+    void setNextColor(uint16_t LEDid);
 
 public:
-typedef struct
-{
-								uint8_t old_prog;
-								uint16_t min;
-								uint16_t max;
-								uint16_t ctr;
-								int16_t period;
-								bool state;
-}prog_param_t, prog_param_ptr;
+    typedef struct
+    {
+        uint8_t old_prog;
+        uint16_t min;
+        uint16_t max;
+        uint16_t ctr;
+        int16_t period;
+        bool state;
+    } prog_param_t, prog_param_ptr;
 
-CLedStrip(uint8_t count = num_leds, uint8_t prog = 0);
+    CLedStrip(uint8_t count = num_leds, uint8_t prog = 0);
 
-void init();
-bool update();
-prog_param_t &getConf();
-bool switch_program(uint8_t prog);
+    void init();
+    bool update();
+    prog_param_t &getConf();
+    bool switch_program(uint8_t prog);
 
-static CLedStrip* getStrip_ptr();
+    static CLedStrip* getStrip_ptr();
 
 protected:
 
-typedef bool (CLedStrip::*prog_fp)(prog_param_t &param);
+    typedef bool (CLedStrip::*prog_fp)(prog_param_t &param);
 
-uint8_t _prog;
-bool _init;
+    uint8_t _prog;
+    bool _init;
 
-prog_param_t _conf;
+    prog_param_t _conf;
 
-// calls the progs
-bool caller(prog_param_t &param, prog_fp func);
+    // calls the progs
+    bool caller(prog_param_t &param, prog_fp func);
 
-// implement the functionality
-bool prog0(prog_param_t &param);
-bool prog1(prog_param_t &param);
-bool prog2(prog_param_t &param);
-bool prog3(prog_param_t &param);
-bool prog4(prog_param_t &param);
-bool prog5(prog_param_t &param);
+    // implement the functionality
+    bool prog0(prog_param_t &param);
+    bool prog1(prog_param_t &param);
+    bool prog2(prog_param_t &param);
 };
 
 #endif //MAKELIGHT_STRIP_H
