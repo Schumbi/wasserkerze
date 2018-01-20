@@ -10,7 +10,7 @@
 #include "ledring.hpp"
 #include "conf.hpp"
 #include "../../pwd.hpp"
-#include "../../wlan.conf"
+#include "../../wlan.hpp"
 
 
 static const char* myssid = MAKELIGHT_SSID;
